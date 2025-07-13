@@ -19,8 +19,18 @@ An Express.js-based RESTful API project that allows users to register, log in, a
 
 ## 📂 Project Structure
 
-<pre><code> final_project/ ├── booksdb.js # Static data for books ├── index.js # Main entry point ├── router/ │ ├── general.js # Public routes │ └── auth_users.js # Protected routes (login, review) ├── package.json └── README.md </code></pre>
+```
 
+final_project/
+├── booksdb.js # Static data for books
+├── index.js # Main entry point
+├── router/
+│ ├── general.js # Public routes
+│ └── auth_users.js # Protected routes (login, review)
+├── package.json
+└── README.md
+
+```
 ---
 
 ## 🛠️ Tech Stack
