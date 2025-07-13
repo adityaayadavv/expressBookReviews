@@ -2,6 +2,7 @@ const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
+const axios = require('axios');
 const public_users = express.Router();
 
 
@@ -93,4 +94,51 @@ public_users.get('/review/:isbn',function (req, res) {
   }
 });
 
+const getBooksWithAxios = async () => {
+    try {
+      const response = await axios.get('http://localhost:6000/');
+      console.log("Book list retrieved using async-await and Axios:\n", response.data);
+    } catch (error) {
+      console.error("Error fetching books with Axios:", error.message);
+    }
+  };
+  
+  getBooksWithAxios();
+
+  const getBookByISBN = async (isbn) => {
+    try {
+      const response = await axios.get(`http://localhost:6000/isbn/${isbn}`);
+      console.log(`Book details for ISBN ${isbn} retrieved:\n`, response.data);
+    } catch (error) {
+      console.error(`Error fetching book for ISBN ${isbn}:`, error.message);
+    }
+  };
+  
+  
+  getBookByISBN('1');
+
+  const getBooksByAuthor = async (author) => {
+    try {
+      const response = await axios.get(`http://localhost:6000/author/${author}`);
+      console.log(`Books by author "${author}" retrieved:\n`, response.data);
+    } catch (error) {
+      console.error(`Error fetching books by author "${author}":`, error.message);
+    }
+  };
+  
+  
+  getBooksByAuthor('Jane Austen');
+  
+  const getBooksByTitle = async (title) => {
+    try {
+      const response = await axios.get(`http://localhost:6000/title/${title}`);
+      console.log(`Books with title "${title}" retrieved:\n`, response.data);
+    } catch (error) {
+      console.error(`Error fetching books with title "${title}":`, error.message);
+    }
+  };
+  
+  
+  getBooksByTitle('Fairy tales');
+  
 module.exports.general = public_users;
