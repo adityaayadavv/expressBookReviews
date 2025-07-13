@@ -7,17 +7,50 @@ let users = [];
 
 const isValid = (username)=>{ //returns boolean
 //write code to check is the username is valid
+let userswithsamename = users.filter((user)=>{
+    return user.username ===username;
+})
+if(userswithsamename.length>0){
+return true;
+}else {return false;}
 }
-
 const authenticatedUser = (username,password)=>{ //returns boolean
 //write code to check if username and password match the one we have in records.
+let validUsers = users.filter((user)=>{
+    return (user.username === username && user.password === password);
+})
+if(validUsers.length>0){return true;}
+else{return false;}
+
 }
 
 //only registered users can login
 regd_users.post("/login", (req,res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
-});
+    const username = req.body.username;
+    const password = req.body.password;
+  
+    if (!username || !password) {
+      return res.status(400).json({message: "Username and password are required"});
+    }
+  
+    if (authenticatedUser(username, password)) {
+      let accessToken = jwt.sign(
+        { data: username },
+        'access',  // secret key
+        { expiresIn: 60 * 60 } // 1 hour
+      );
+  
+      req.session.authorization = {
+        accessToken,
+        username
+      };
+  
+      return res.status(200).json({message: "Login successful"});
+    } else {
+      return res.status(401).json({message: "Invalid login. Check username and password."});
+    }
+  });
+
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
