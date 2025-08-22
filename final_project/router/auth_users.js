@@ -5,8 +5,7 @@ const regd_users = express.Router();
 
 let users = [];
 
-const isValid = (username)=>{ //returns boolean
-//write code to check is the username is valid
+const isValid = (username)=>{ 
 let userswithsamename = users.filter((user)=>{
     return user.username ===username;
 })
@@ -14,8 +13,8 @@ if(userswithsamename.length>0){
 return true;
 }else {return false;}
 }
-const authenticatedUser = (username,password)=>{ //returns boolean
-//write code to check if username and password match the one we have in records.
+
+const authenticatedUser = (username,password)=>{ 
 let validUsers = users.filter((user)=>{
     return (user.username === username && user.password === password);
 })
@@ -24,7 +23,7 @@ else{return false;}
 
 }
 
-//only registered users can login
+
 regd_users.post("/login", (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -36,7 +35,7 @@ regd_users.post("/login", (req,res) => {
     if (authenticatedUser(username, password)) {
       let accessToken = jwt.sign(
         { data: username },
-        'access',  // secret key
+        'access', 
         { expiresIn: 60 * 60 } // 1 hour
       );
   
@@ -54,9 +53,9 @@ regd_users.post("/login", (req,res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
+  
   const isbn = req.params.isbn;
-  const review = req.query.review; // Review text from query param
+  const review = req.query.review; 
   const username = req.session.authorization.username;
 
   if (!books[isbn]) {
